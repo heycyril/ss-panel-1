@@ -102,6 +102,10 @@ npm run pm2.reload
 ##### 使用 Nginx 处理静态资源，Nginx示例配置如下
 
 ```nginx
+upstream ss-panel {
+    server 127.0.0.1:8004;
+}
+
 server {
     listen 80;
     server_name ss.example.com;
@@ -111,13 +115,13 @@ server {
 
     location /api {
         include proxy_params;
-        proxy_pass http://127.0.0.1:8004/api;
+        proxy_pass http://ss-panel/api;
     }
 
-    # 看需要取消注释
+    # 根据需要取消注释
     # location /doc {
     #     include proxy_params;
-    #     proxy_pass http://127.0.0.1:8004/doc;
+    #     proxy_pass http://ss-panel/doc;
     # }
 
     location /static {
