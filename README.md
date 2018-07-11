@@ -1,54 +1,121 @@
-#### 项目状态
+### 项目状态
 
-##### Master
+###### Master
 
 [![Build Status](https://travis-ci.org/qious/ss-panel.svg?branch=master)](https://travis-ci.org/qious/ss-panel)
 [![Coverage Status](https://coveralls.io/repos/github/qious/ss-panel/badge.svg?branch=master)](https://coveralls.io/github/qious/ss-panel?branch=master)
 
 
-##### Develop
+###### Develop
 
 [![Build Status](https://travis-ci.org/qious/ss-panel.svg?branch=develop)](https://travis-ci.org/qious/ss-panel)
 [![Coverage Status](https://coveralls.io/repos/github/qious/ss-panel/badge.svg?branch=develop)](https://coveralls.io/github/qious/ss-panel?branch=develop)
 
+### 项目介绍
 
-### **线上运行**
+##### 用途
 
-```bash
-cd /path/to/ss-panel/server/
-npm install
-cp config/default.js config/local.js # 修改配置文件
-npm run pm2.start
-```
+> 使用 微信企业号/企业微信 管理 shadowsocks 用户
 
-### **协作开发**
+##### 注意
 
-```bash
-# 后端开发
-cd /path/to/ss-panel/server
-npm install
-npm run dev
+> 本项目只是管理管理界面及控制中心，各科学上网节点需要运行下述程序中的任意一种
 
-# 前端开发
-cd /path/to/ss-panel/client
-npm install
-npm run dev
-```
+* [shadowsocks](https://github.com/qious/shadowsocks) : 基于 Python 版本修改而来
+* [ss-adapter](https://github.com/qious/ss-adapter) : shadowsocks udp 控制协议适配器
 
-#### **单元测试**
+##### 依赖
 
-```bash
-cd /path/to/ss-panel/server
-npm run test                # 运行所有测试
-npm run test -- -g network  # 只测试 network
-```
+* Node.js >= 7.6.0
+* MySQL
+* Redis
 
-### **效果展示**
+##### 特性
 
-成员角色分为用户与管理员，下图展示为管理员角色
+* 基于微信企业号/企业微信授权登录
+* 新用户授权登录自动分配帐号信息
+* 节点异常时会通过 微信企业号/企业微信 发送消息给管理员
+* 数据库自动配置、自动升级（v0.5.0之后）
+* 前后端分离，完善的接口文档，方便二次开发（项目运行后 HTTP 访问 /doc 路径）
+* ...
+
+##### 演示
 
 ![效果展示](screenshot/1.gif)
 
-### **关联项目**
+#### 常规运行
 
-* [shadowsocks](https://github.com/qious/shadowsocks)
+##### 下载或clone代码到任意目录
+
+```bash
+git clone https://github.com/qious/ss-panel.git
+```
+
+##### 安装依赖
+
+```bash
+cd /path/to/ss-panel/server
+npm i
+sudo npm i -g pm2
+```
+
+##### 复制并修改配置文件
+
+```bash
+cd /path/to/ss-panel/server
+cp ./config/default.js ./config/local.js
+vim ./config/local.js # 根据自身需要修改配置文件
+```
+
+##### 测试运行
+
+```bash
+cd /path/to/ss-panel/server
+npm run dev # 如无报错后可进入下一步
+```
+
+##### 正式运行
+
+```bash
+cd /path/to/ss-panel/server
+npm run pm2.start
+```
+
+### 更新升级
+
+##### 更新代码
+
+```bash
+cd /path/to/ss-panel
+git pull
+```
+
+##### 重启服务
+
+```bash
+cd /path/to/ss-panel/server
+npm run pm2.reload
+```
+
+### 进阶配置
+
+##### 使用 Nginx 处理静态资源，Nginx示例配置如下
+
+```nginx
+server {
+    listen 80;
+    server_name ss.example.com;
+
+    root /path/to/ss-panel/client/dist;
+    index index.htm index.html;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://127.0.0.1:8004;
+    }
+
+    location /static {
+        expires 7d;
+    }
+}
+```
