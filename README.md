@@ -19,7 +19,7 @@
 
 ##### 注意
 
-> 本项目只是管理管理界面及控制中心，各科学上网节点需要运行下述程序中的任意一种
+> 本项目只是管理界面及控制中心，各科学上网节点需要运行下述程序中的任意一种
 
 * [shadowsocks](https://github.com/qious/shadowsocks) : 基于 Python 版本修改而来
 * [ss-adapter](https://github.com/qious/ss-adapter) : shadowsocks udp 控制协议适配器
@@ -67,7 +67,7 @@ cp ./config/default.js ./config/local.js
 vim ./config/local.js # 根据自身需要修改配置文件
 ```
 
-##### 测试运行
+##### 测试运行
 
 ```bash
 cd /path/to/ss-panel/server
