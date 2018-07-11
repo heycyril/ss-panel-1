@@ -36,7 +36,7 @@
 * 新用户授权登录自动分配帐号信息
 * 节点异常时会通过 微信企业号/企业微信 发送消息给管理员
 * 数据库自动配置、自动升级（v0.5.0之后）
-* 前后端分离，完善的接口文档，方便二次开发（项目运行后 HTTP 访问 /doc 路径）
+* 前后端分离，完善的swagger接口文档（项目运行后浏览器访问 /doc 路径），方便二次开发
 * ...
 
 ##### 演示
@@ -109,10 +109,16 @@ server {
     root /path/to/ss-panel/client/dist;
     index index.htm index.html;
 
-    location / {
+    location /api {
         include proxy_params;
-        proxy_pass http://127.0.0.1:8004;
+        proxy_pass http://127.0.0.1:8004/api;
     }
+
+    # 看需要取消注释
+    # location /doc {
+    #     include proxy_params;
+    #     proxy_pass http://127.0.0.1:8004/doc;
+    # }
 
     location /static {
         expires 7d;
