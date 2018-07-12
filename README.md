@@ -103,7 +103,7 @@ npm run pm2.reload
 
 ```nginx
 upstream ss-panel {
-    server 127.0.0.1:8004;
+    server 127.0.0.1:8000;
 }
 
 server {
